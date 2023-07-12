@@ -9,7 +9,7 @@ class LoginApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      title: 'Masuk',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
