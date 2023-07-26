@@ -1,10 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:projek_2/screens/courses_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'Account_page.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  HomePage({super.key}) ;
+
+  
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final apiUrl = 'http://localhost:1337/api/menus';
+
+  List<dynamic> data = [];
+  bool isLoading = true;
+
+  final idController = TextEditingController();
+  final namaController = TextEditingController();
+  final resepController = TextEditingController();
+  final fotoController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        setState(() {
+          data = json.decode(response.body);
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to fetch data');
+      }
+    } catch (error) {
+      throw Exception('Failed to connect to the server');
+    }
+  }
+
+
 
   // Creating static data in lists
 
@@ -44,7 +90,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Halo"),
+      appBar: AppBar(title: Text("Title"),
       backgroundColor: Color.fromARGB(255, 5, 60, 105),
       ),
       drawer: Drawer(
